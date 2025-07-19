@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "✅ ProTek Chatbot is running. Walker is the boss!"})
+    return jsonify({"message": "✅ ProTek Chatbot is running. Hooray Walker you are cool!"})
 
 @app.route("/git-pull", methods=["POST"])
 def git_pull():
@@ -20,17 +20,18 @@ def git_pull():
 
 @app.route("/sms", methods=["POST"])
 def sms_reply():
-    incoming_msg = request.form.get("Body", "").strip()
-    response = MessagingResponse()
+    incoming_msg = request.form.get("Body", "").strip().lower()
+    resp = MessagingResponse()
 
-    # You can change this logic
-    if "hello" in incoming_msg.lower():
-        reply = "Hey there! 👋 This is the ProTek Chatbot. How can I help?"
+    # Basic logic example
+    if "hi" in incoming_msg or "hello" in incoming_msg:
+        resp.message("👋 Hello! This is the ProTek Chatbot. How can I help you today?")
+    elif "help" in incoming_msg:
+        resp.message("🛠️ Sure! You can ask me about your service, report an outage, or check your account.")
     else:
-        reply = f"You said: {incoming_msg}"
+        resp.message("🤖 Sorry, I didn’t understand that. Try saying 'help' or 'hello'.")
 
-    response.message(reply)
-    return str(response)
+    return str(resp)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
