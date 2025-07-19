@@ -13,9 +13,14 @@ def git_pull():
     try:
         result = subprocess.run(["git", "pull"], capture_output=True, text=True, cwd="/opt/protek-chatbot")
         output = result.stdout.strip()
+        error_output = result.stderr.strip()
+        print("Git stdout:", output)
+        print("Git stderr:", error_output)
+
         subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
-        return jsonify({"output": output, "status": "success"})
+        return jsonify({"output": output or error_output, "status": "success"})
     except Exception as e:
+        print("Exception occurred in /git-pull:", str(e))
         return jsonify({"output": str(e), "status": "error"})
 
 @app.route("/sms", methods=["POST"])
