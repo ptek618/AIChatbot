@@ -15,5 +15,18 @@ def git_pull():
     except Exception as e:
         return jsonify({"status": "error", "output": str(e)})
 
+
+@app.route('/git-pull', methods=['POST'])
+def git_pull():
+    try:
+        output = subprocess.check_output(['git', 'pull'], cwd='/opt/protek-chatbot').decode('utf-8')
+
+        # Restart Flask app
+        subprocess.call(['systemctl', 'restart', 'protek-chatbot'])
+
+        return jsonify({'status': 'success', 'output': output})
+    except Exception as e:
+        return jsonify({'status': 'error', 'output': str(e)})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
