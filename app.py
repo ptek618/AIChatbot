@@ -11,9 +11,12 @@ def home():
 def git_pull():
     try:
         result = subprocess.run(["git", "pull"], capture_output=True, text=True, cwd="/opt/protek-chatbot")
-        return jsonify({"status": "success", "output": result.stdout})
+        output = result.stdout.strip()
+        # Restart the service
+        subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
+        return jsonify({"output": output, "status": "success"})
     except Exception as e:
-        return jsonify({"status": "error", "output": str(e)})
+        return jsonify({"output": str(e), "status": "error"})
 
 
 @app.route('/git-pull', methods=['POST'])
