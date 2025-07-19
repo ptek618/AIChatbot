@@ -14,14 +14,19 @@ def git_pull():
         result = subprocess.run(["git", "pull"], capture_output=True, text=True, cwd="/opt/protek-chatbot")
         output = result.stdout.strip()
         error_output = result.stderr.strip()
-        print("Git stdout:", output)
-        print("Git stderr:", error_output)
 
-        # subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
-        return jsonify({"output": output or error_output, "status": "success"})
+        def restart_service():
+            subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
+
+        threading.Thread(target=restart_service).start()
+
+        return jsonify({
+            "output": output or error_output,
+            "status": "success"
+        }), 200
+
     except Exception as e:
-        print("Exception occurred in /git-pull:", str(e))
-        return jsonify({"output": str(e), "status": "error"})
+        return jsonify({"output": str(e), "status": "error"}), 500
 
 @app.route("/sms", methods=["POST"])
 def sms_reply():
