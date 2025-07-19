@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "✅ ProTek Chatbot is running. Hooray!"})
+    return jsonify({"message": "✅ ProTek Chatbot is running. Hooray Walker!"})
 
 @app.route("/git-pull", methods=["POST"])
 def git_pull():
