@@ -17,7 +17,7 @@ def git_pull():
         print("Git stdout:", output)
         print("Git stderr:", error_output)
 
-        subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
+        #subprocess.run(["sudo", "systemctl", "restart", "protek-chatbot"])
         return jsonify({"output": output or error_output, "status": "success"})
     except Exception as e:
         print("Exception occurred in /git-pull:", str(e))
