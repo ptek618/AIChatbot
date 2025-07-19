@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "✅ ProTek Chatbot is running."})
+    return jsonify({"message": "✅ ProTek Chatbot is running. Hooray!"})
 
 @app.route("/git-pull", methods=["POST"])
 def git_pull():
@@ -30,3 +30,4 @@ def git_pull():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+test auto-deploy: [hello world]
