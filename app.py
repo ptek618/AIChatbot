@@ -391,7 +391,10 @@ Just type your customer type to get started!
                 sendButton.disabled = true;
                 sendButton.textContent = 'Sending...';
                 
-                const response = await fetch('/chat/message', {
+                // Get the current origin without credentials for the fetch request
+                const baseUrl = window.location.protocol + '//' + window.location.host;
+                
+                const response = await fetch(baseUrl + '/chat/message', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
