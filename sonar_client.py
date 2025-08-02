@@ -43,9 +43,9 @@ class SonarClient:
             }
         }
         
-        if customer_data and customer_data.get('account_id'):
-            variables["input"]["ticketable_type"] = "ACCOUNT"
-            variables["input"]["ticketable_id"] = int(customer_data['account_id'])
+        # if customer_data and customer_data.get('account_id'):
+        #     variables["input"]["ticketable_type"] = "Account"
+        #     variables["input"]["ticketable_id"] = int(customer_data['account_id'])
         
         try:
             response = requests.post(
