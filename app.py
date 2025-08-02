@@ -523,7 +523,11 @@ To provide you with the best support, please enter your phone number (the one as
                     sendButton.disabled = true;
                     sendButton.textContent = '⏳';
                     
-                    let endpoint = '/chat/message';
+                    // Get the base URL without credentials for fetch requests
+                    const currentUrl = window.location.href;
+                    const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+                    
+                    let endpoint = baseUrl + '/chat/message';
                     let payload = {
                         message: message,
                         session_id: sessionId
@@ -531,7 +535,7 @@ To provide you with the best support, please enter your phone number (the one as
                     
                     // If authenticated, use the authenticated endpoint
                     if (isAuthenticated) {
-                        endpoint = '/chat/authenticated';
+                        endpoint = baseUrl + '/chat/authenticated';
                         payload.phone_number = customerPhone;
                     }
                     
