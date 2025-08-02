@@ -34,25 +34,31 @@ A Flask-based SMS chatbot for ProTek ISP that integrates with Sonar software for
    python app.py
    ```
 
-## Customer Data Format
+## Customer Data Structure
 
-The system uses a JSON file (`customers.json`) to store customer information:
+The chatbot now reads customer data directly from Sonar's database using GraphQL queries. Customer authentication is performed by:
 
-```json
-{
-  "5551234567": {
-    "name": "John Doe",
-    "type": "residential",
-    "account_id": "12345",
-    "wifi_access_authorized": true,
-    "wifi_password": "MySecureWifi123",
-    "hardware": {
-      "modem": "Netgear CM1000",
-      "router": "ASUS AX6000"
-    }
-  }
-}
-```
+1. **Phone Number Lookup**: Normalizes incoming phone numbers and searches Sonar's PhoneNumber entities
+2. **Account Resolution**: Follows the PhoneNumber -> Contact -> Account relationship chain
+3. **Data Extraction**: Extracts customer information from Account notes and custom fields
+
+### WiFi Password Storage
+
+WiFi passwords can be stored in Sonar using either:
+- **Custom Fields**: Create custom fields named `wifi_password`, `wireless_password`, or `network_password`
+- **Account Notes**: Include password information in account notes using patterns like "WiFi: password123"
+
+### Hardware Information Storage
+
+Hardware information can be stored using:
+- **Custom Fields**: Create fields for `modem`, `router`, `equipment`
+- **Account Notes**: Include hardware details in notes using patterns like "Modem: Netgear CM1000"
+
+### Customer Authorization
+
+WiFi password access is controlled by:
+- Custom fields named `wifi_access`, `wifi_authorized`, or `password_access`
+- Default authorization can be configured via `DEFAULT_WIFI_ACCESS` environment variable
 
 ## SMS Commands
 
@@ -71,9 +77,16 @@ The system uses a JSON file (`customers.json`) to store customer information:
 
 ## Testing
 
-The system includes sample customer data for testing:
-- Phone: 5551234567 (residential customer with WiFi access)
-- Phone: 5559876543 (business customer with WiFi access)
+Test the Sonar customer lookup functionality:
+```bash
+python test_sonar_customer_lookup.py
+```
+
+Test the complete SMS integration:
+```bash
+python app.py &
+python test_sms_flows.py
+```
 
 ## Deployment
 

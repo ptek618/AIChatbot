@@ -99,7 +99,7 @@ def sms_reply():
     customer_data = customer_db.authenticate_customer(phone_number)
     
     if not customer_data:
-        resp.message("🚫 Sorry, I don't recognize your phone number. Please contact support to verify your account.")
+        resp.message("🚫 Sorry, I don't recognize your phone number in our system. Please contact support to verify your account or update your contact information.")
         return str(resp)
     
     customer_name = customer_data.get('name', 'Customer')
@@ -139,8 +139,4 @@ def sms_reply():
 
 
 if __name__ == "__main__":
-    if not os.path.exists('customers.json'):
-        customer_db.add_sample_data()
-        logger.info("Added sample customer data")
-    
     app.run(host="0.0.0.0", port=5000)
