@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from twilio.twiml.messaging_response import MessagingResponse
 import subprocess
 import threading
@@ -14,6 +15,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+CORS(app)
 
 customer_db = CustomerDatabase()
 sonar_client = SonarClient()
