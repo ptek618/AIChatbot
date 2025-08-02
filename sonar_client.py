@@ -38,7 +38,8 @@ class SonarClient:
                 "subject": subject,
                 "description": description,
                 "status": status,
-                "priority": priority
+                "priority": priority,
+                "user_id": 65  # Assign to Chat_API user
             }
         }
         
