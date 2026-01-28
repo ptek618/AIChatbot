@@ -1,0 +1,51 @@
+{
+  "towns": {
+    "Marion, IL": [
+      {
+        "name": "Walt's",
+        "category": "Sit Down",
+        "ownership": "Locally Owned"
+      },
+      {
+        "name": "17th Street Bar & Grill",
+        "category": "Sit Down",
+        "ownership": "Locally Owned"
+      },
+      {
+        "name": "El Torito",
+        "category": "Sit Down",
+        "ownership": "Locally Owned"
+      },
+      {
+        "name": "Pookie's Beer, Burgers & Bocce",
+        "category": "Sit Down",
+        "ownership": "Locally Owned"
+      },
+      {
+        "name": "Culver's",
+        "category": "Fast Food",
+        "ownership": "Chain"
+      },
+      {
+        "name": "Chick-fil-A",
+        "category": "Fast Food",
+        "ownership": "Chain"
+      },
+      {
+        "name": "Taco Bell",
+        "category": "Fast Food",
+        "ownership": "Chain"
+      },
+      {
+        "name": "Taqueria Los Tres Caminos (Food Truck)",
+        "category": "Food Truck",
+        "ownership": "Locally Owned"
+      },
+      {
+        "name": "Smokehouse 155 Food Truck",
+        "category": "Food Truck",
+        "ownership": "Locally Owned"
+      }
+    ]
+  }
+}

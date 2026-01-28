@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Admin Panel</h1>
+      <p>Manage lunch options by town.</p>
+    </div>
+    <div class="header-actions">
+      <a class="admin-link" href="{{ url_for('admin_logout') }}">Logout</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls">
+      <form class="admin-form" method="get" action="{{ url_for('admin_panel') }}">
+        <label for="town">Town</label>
+        <input id="town" name="town" type="text" list="town-list" value="{{ selected_town }}">
+        <datalist id="town-list">
+          {% for town in towns %}
+          <option value="{{ town }}"></option>
+          {% endfor %}
+        </datalist>
+        <button type="submit">Load</button>
+      </form>
+    </section>
+
+    <section class="options-section">
+      <h2>Options for {{ selected_town }}</h2>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Ownership</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for option in options_list %}
+          <tr>
+            <form method="post" action="{{ url_for('admin_options') }}">
+              <td>
+                <input type="text" name="name" value="{{ option.name }}" required>
+              </td>
+              <td>
+                <select name="category">
+                  {% for category in ['Fast Food', 'Sit Down', 'Food Truck'] %}
+                  <option value="{{ category }}" {% if option.category == category %}selected{% endif %}>{{ category }}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td>
+                <select name="ownership">
+                  {% for owner in ['Locally Owned', 'Chain'] %}
+                  <option value="{{ owner }}" {% if option.ownership == owner %}selected{% endif %}>{{ owner }}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td class="actions">
+                <input type="hidden" name="town" value="{{ selected_town }}">
+                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <button type="submit" name="action" value="update">Update</button>
+                <button type="submit" name="action" value="delete" class="danger">Delete</button>
+              </td>
+            </form>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4">No options yet. Add one below.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="options-section">
+      <h2>Add a new option</h2>
+      <form class="admin-form" method="post" action="{{ url_for('admin_options') }}">
+        <input type="hidden" name="town" value="{{ selected_town }}">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required>
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="Fast Food">Fast Food</option>
+          <option value="Sit Down" selected>Sit Down</option>
+          <option value="Food Truck">Food Truck</option>
+        </select>
+        <label for="ownership">Ownership</label>
+        <select id="ownership" name="ownership">
+          <option value="Locally Owned" selected>Locally Owned</option>
+          <option value="Chain">Chain</option>
+        </select>
+        <button type="submit" name="action" value="add" class="primary">Add option</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

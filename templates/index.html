@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marion Lunch Spinner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Lunch Wheel</h1>
+      <p>Spin the wheel to pick your next spot in Marion, IL (or your town).</p>
+    </div>
+    <div class="header-actions">
+      <a class="admin-link" href="{{ url_for('admin_login') }}">Admin</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls">
+      <div class="control-group">
+        <label for="town">Your town</label>
+        <input id="town" name="town" type="text" list="town-list" value="{{ default_town }}">
+        <datalist id="town-list">
+          {% for town in towns %}
+          <option value="{{ town }}"></option>
+          {% endfor %}
+        </datalist>
+        <button id="load-town" type="button">Load town list</button>
+        <span id="town-status" class="status"></span>
+      </div>
+
+      <div class="control-group">
+        <label>Meal type</label>
+        <div class="slider-wrapper">
+          <input id="category-slider" type="range" min="0" max="3" step="1" value="3">
+          <div class="slider-labels">
+            <span>Fast Food</span>
+            <span>Sit Down</span>
+            <span>Food Truck</span>
+            <span>All</span>
+          </div>
+          <p class="slider-value">Selected: <strong id="category-value">All</strong></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Ownership</label>
+        <div class="slider-wrapper">
+          <input id="ownership-slider" type="range" min="0" max="2" step="1" value="2">
+          <div class="slider-labels">
+            <span>Locally Owned</span>
+            <span>Chain</span>
+            <span>All</span>
+          </div>
+          <p class="slider-value">Selected: <strong id="ownership-value">All</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wheel-section">
+      <div class="wheel-container">
+        <canvas id="wheel" width="420" height="420"></canvas>
+        <div class="pointer"></div>
+      </div>
+      <button id="spin" class="primary">Spin the wheel</button>
+      <div id="result" class="result"></div>
+    </section>
+
+    <section class="options-section">
+      <h2>Current options</h2>
+      <ul id="options-list"></ul>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
